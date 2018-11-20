@@ -7,10 +7,11 @@ import com.igorwojda.robotcontrol.command.RobotMoveCommand
 import com.igorwojda.robotcontrol.data.ProhibitedRobotMove
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.extensions.compareTo
+import com.igorwojda.robotcontrol.extensions.readAssetAsString
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private val inputParser by lazy { InputParser(readAssetString("directions.txt")) }
+    private val inputParser by lazy { InputParser(application.readAssetAsString("directions.txt")) }
     private var logMessages = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +73,4 @@ class MainActivity : AppCompatActivity() {
     private fun addLogLine(line: String = "") {
         logMessages.add(line)
     }
-
-    private fun readAssetString(fileName: String) =
-        application.assets.open(fileName).bufferedReader().use { it.readText() }
 }
