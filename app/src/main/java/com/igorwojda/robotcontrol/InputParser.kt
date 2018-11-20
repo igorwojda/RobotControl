@@ -15,6 +15,7 @@ class InputParser(str: String) {
             .split(" ", limit = 2)
             .map { it.toInt() }
 
+        require(x <= 50 && y <= 50) { "Maximum allowed board size is 50x50, current size ${x}x$y" }
         Point(x, y)
     }
 
@@ -24,13 +25,19 @@ class InputParser(str: String) {
             .filter { it.isNotBlank() }
             .chunked(2)
             .map {
-                val startData = getStartData(it[0])
-                val commands = getCommands(it[1])
+                val startDataLine = it[0]
+                val startData = getStartData(startDataLine)
+                val commandsLine = it[1]
+                val commands = getCommands(commandsLine)
                 MoveSequence(startData.position, startData.orientation, commands)
             }
     }
 
     private fun getCommands(str: String) = str.map {
+        require(str.length <= 100) {
+            "Maximum number of commands allowed is 100, current number of commands: ${str.length}"
+        }
+
         when (it) {
             'F' -> RobotMoveForwardCommand()
             'R' -> RobotTurnRightCommand()
