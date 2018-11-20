@@ -4,9 +4,12 @@ import android.graphics.Point
 import com.igorwojda.robotcontrol.enum.Orientation
 
 data class Robot(
-    val position: Point,
+    var positionX: Int,
+    var positionY: Int,
     var orientation: Orientation
 ) {
+    val position = Point(positionX, positionY)
+
     val status: String
-     get() = "${position.x} ${position.y} $orientation"
+        get() = "${position.x} ${position.y} $orientation"
 }

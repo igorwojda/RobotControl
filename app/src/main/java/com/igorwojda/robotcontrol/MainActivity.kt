@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val prohibitedMoves = mutableListOf<ProhibitedRobotMove>()
 
         inputParser.moveSequences.forEach { moveSequence ->
-            val robot = Robot(moveSequence.startPosition, moveSequence.startOrientation)
+            val robot = Robot(moveSequence.startPosition.x, moveSequence.startPosition.y, moveSequence.startOrientation)
             addLogLine(moveSequence.toString())
 
             for(commandIndex in 0 until moveSequence.commands.size) {
