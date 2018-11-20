@@ -1,5 +1,5 @@
 package com.igorwojda.robotcontrol.enum
 
-enum class Direction {
+enum class Orientation {
     N, S, E, W
 }

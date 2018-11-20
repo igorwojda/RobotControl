@@ -3,7 +3,7 @@ package com.igorwojda.robotcontrol.data
 import android.graphics.Point
 import com.igorwojda.robotcontrol.enum.Orientation
 
-data class Robot(
+data class StartData(
     val position: Point,
-    var orientation: Orientation
+    val orientation: Orientation
 )
