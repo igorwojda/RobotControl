@@ -3,7 +3,10 @@ package com.igorwojda.robotcontrol
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
+import com.igorwojda.robotcontrol.command.RobotMoveForwardCommand
+import com.igorwojda.robotcontrol.data.ProhibitedRobotMove
 import com.igorwojda.robotcontrol.data.Robot
+import com.igorwojda.robotcontrol.extensions.compareTo
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,22 +19,49 @@ class MainActivity : AppCompatActivity() {
 
         log.movementMethod = ScrollingMovementMethod()
 
+        addLogLine("Board size ${inputParser.boardSize.x}x${inputParser.boardSize.y} ")
+        addLogLine()
+
         executeEarthInstructions()
         displayLog()
     }
 
     private fun executeEarthInstructions() {
+        val prohibitedMoves = mutableListOf<ProhibitedRobotMove>()
+
         inputParser.moveSequences.forEach { moveSequence ->
             val robot = Robot(moveSequence.startPosition, moveSequence.startOrientation)
             addLogLine(moveSequence.toString())
 
-            moveSequence.commands.forEach {
-                it.receiver = robot
+            for(commandIndex in 0 until moveSequence.commands.size) {
+                val command = moveSequence.commands[commandIndex]
+
+                command.receiver = robot
+
+                //one robot died here, so we want to save another
+                if (command is RobotMoveForwardCommand
+                    && prohibitedMoves.any { it.position == robot.position && it.orientation == robot.orientation }
+                ) {
+                    continue
+                }
 
                 val oldStatus = robot.status
-                it.execute()
+                val oldPosition = robot.position
+                val oldOrientation = robot.orientation
 
-                addLogLine("${it.javaClass.simpleName}: $oldStatus -> ${robot.status}")
+                command.execute()
+
+                addLogLine("${command.javaClass.simpleName}: $oldStatus -> ${robot.status}")
+
+                if (robot.position >= inputParser.boardSize) {
+                    //mark this tile as dangerous, so other robots will survive
+                    if (prohibitedMoves.none { it.position == oldPosition && it.orientation == oldOrientation }) {
+                        prohibitedMoves.add(ProhibitedRobotMove(oldPosition, oldOrientation))
+                    }
+
+                    addLogLine("LOST")
+                    break
+                }
             }
 
             addLogLine()
