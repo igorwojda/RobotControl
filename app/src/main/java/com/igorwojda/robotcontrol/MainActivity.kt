@@ -3,7 +3,7 @@ package com.igorwojda.robotcontrol
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
-import com.igorwojda.robotcontrol.command.RobotMoveForwardCommand
+import com.igorwojda.robotcontrol.command.RobotMoveCommand
 import com.igorwojda.robotcontrol.data.ProhibitedRobotMove
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.extensions.compareTo
@@ -36,30 +36,27 @@ class MainActivity : AppCompatActivity() {
             for(commandIndex in 0 until moveSequence.commands.size) {
                 val command = moveSequence.commands[commandIndex]
 
-                command.receiver = robot
-
                 //one robot died here, so we want to save another
-                if (command is RobotMoveForwardCommand
+                if (command is RobotMoveCommand
                     && prohibitedMoves.any { it.position == robot.position && it.orientation == robot.orientation }
                 ) {
+                    addLogLine("Robot was saved")
                     continue
                 }
 
-                val oldStatus = robot.status
-                val oldPosition = robot.position
-                val oldOrientation = robot.orientation
-
+                command.receiver = robot
+                val oldRobot = robot.copy()
                 command.execute()
 
-                addLogLine("${command.javaClass.simpleName}: $oldStatus -> ${robot.status}")
+                addLogLine("${command.javaClass.simpleName}: ${oldRobot.status} -> ${robot.status}")
 
                 if (robot.position >= inputParser.boardSize) {
                     //mark this tile as dangerous, so other robots will survive
-                    if (prohibitedMoves.none { it.position == oldPosition && it.orientation == oldOrientation }) {
-                        prohibitedMoves.add(ProhibitedRobotMove(oldPosition, oldOrientation))
+                    if (prohibitedMoves.none { it.position == oldRobot.position && it.orientation == oldRobot.orientation }) {
+                        prohibitedMoves.add(ProhibitedRobotMove(oldRobot.position, oldRobot.orientation))
                     }
 
-                    addLogLine("LOST")
+                    addLogLine("Robot was lost")
                     break
                 }
             }
