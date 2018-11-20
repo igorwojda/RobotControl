@@ -11,5 +11,5 @@ data class Robot(
     val position = Point(positionX, positionY)
 
     val status: String
-        get() = "${position.x} ${position.y} $orientation"
+        get() = "$positionX $positionY $orientation"
 }

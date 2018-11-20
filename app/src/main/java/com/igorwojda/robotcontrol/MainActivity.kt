@@ -6,7 +6,6 @@ import android.text.method.ScrollingMovementMethod
 import com.igorwojda.robotcontrol.command.RobotMoveCommand
 import com.igorwojda.robotcontrol.data.ProhibitedRobotMove
 import com.igorwojda.robotcontrol.data.Robot
-import com.igorwojda.robotcontrol.extensions.compareTo
 import com.igorwojda.robotcontrol.extensions.readAssetAsString
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -46,7 +45,9 @@ class MainActivity : AppCompatActivity() {
 
                 //one robot died here, so we want to save another
                 if (command is RobotMoveCommand
-                    && prohibitedMoves.any { it.position == robot.position && it.orientation == robot.orientation }
+                    && prohibitedMoves.any { it.positionX == robot.positionX
+                        && it.positionY == robot.positionY
+                        && it.orientation == robot.orientation }
                 ) {
                     addLogLine("Robot was saved")
                     continue
@@ -55,16 +56,19 @@ class MainActivity : AppCompatActivity() {
                 command.receiver = robot
                 val oldRobot = robot.copy()
                 command.execute()
-
                 addLogLine("${command.javaClass.simpleName}: ${oldRobot.status} -> ${robot.status}")
 
-                if (robot.position >= inputParser.boardSize) {
+                if (robot.positionX > inputParser.boardSize.x
+                || robot.positionY > inputParser.boardSize.y) {
                     //mark this tile as dangerous, so other robots will survive
-                    if (prohibitedMoves.none { it.position == oldRobot.position && it.orientation == oldRobot.orientation }) {
-                        prohibitedMoves.add(ProhibitedRobotMove(oldRobot.position, oldRobot.orientation))
-                    }
-
                     addLogLine("Robot was lost")
+
+                    if (prohibitedMoves.none { it.position == oldRobot.position && it.orientation == oldRobot.orientation }) {
+                        ProhibitedRobotMove(oldRobot.positionX, oldRobot.positionY, oldRobot.orientation).also {
+                            prohibitedMoves.add(it)
+                            addLogLine("Added $it")
+                        }
+                    }
                     break
                 }
             }

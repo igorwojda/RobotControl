@@ -16,7 +16,7 @@ class InputParser(str: String) {
             .map { it.toInt() }
 
         require(x <= 50 && y <= 50) { "Maximum allowed board size is 50x50, current size ${x}x$y" }
-        Point(x, y)
+        Point(x , y)
     }
 
     val moveSequences by lazy {
