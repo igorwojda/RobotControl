@@ -11,7 +11,9 @@ import com.igorwojda.robotcontrol.extensions.readAssetAsString
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private val inputParser by lazy { InputParser(application.readAssetAsString("directions.txt")) }
+    private val defaultDirections by lazy { application.readAssetAsString("directions.txt") }
+    private val earthInstructions: String
+        get() = if (instructionsTextView.text.isNullOrBlank()) defaultDirections else instructionsTextView.text.toString()
     private var logMessages = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,21 +22,26 @@ class MainActivity : AppCompatActivity() {
 
         log.movementMethod = ScrollingMovementMethod()
 
-        addLogLine("Board size ${inputParser.boardSize.x}x${inputParser.boardSize.y} ")
-        addLogLine()
+        instructionsTextView.text = defaultDirections
+        runEarthInstructionsButton.setOnClickListener { executeEarthInstructions() }
 
         executeEarthInstructions()
-        displayLog()
     }
 
     private fun executeEarthInstructions() {
+        clearLog()
+        val inputParser = InputParser(earthInstructions)
+
+        addLogLine("Board size ${inputParser.boardSize.x}x${inputParser.boardSize.y}")
+        addLogLine()
+
         val prohibitedMoves = mutableListOf<ProhibitedRobotMove>()
 
         inputParser.moveSequences.forEach { moveSequence ->
             val robot = Robot(moveSequence.startPosition.x, moveSequence.startPosition.y, moveSequence.startOrientation)
             addLogLine(moveSequence.toString())
 
-            for(commandIndex in 0 until moveSequence.commands.size) {
+            for (commandIndex in 0 until moveSequence.commands.size) {
                 val command = moveSequence.commands[commandIndex]
 
                 //one robot died here, so we want to save another
@@ -64,10 +71,16 @@ class MainActivity : AppCompatActivity() {
 
             addLogLine()
         }
+
+        displayLog()
     }
 
     private fun displayLog() {
         log.text = logMessages.joinToString(transform = { "$it \n" }, separator = "")
+    }
+
+    private fun clearLog() {
+        logMessages.clear()
     }
 
     private fun addLogLine(line: String = "") {
