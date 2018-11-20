@@ -9,7 +9,11 @@ abstract class RobotCommand {
     abstract fun execute()
 }
 
-class RobotMoveForwardCommand : RobotCommand() {
+abstract class RobotMoveCommand() : RobotCommand() {
+    abstract override fun execute()
+}
+
+class RobotMoveForwardCommand : RobotMoveCommand() {
     override fun execute() {
         requireNotNull(receiver) { "receiver is null" }.also {
             when (it.orientation) {
