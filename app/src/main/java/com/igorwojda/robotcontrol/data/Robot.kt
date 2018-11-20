@@ -6,4 +6,7 @@ import com.igorwojda.robotcontrol.enum.Orientation
 data class Robot(
     val position: Point,
     var orientation: Orientation
-)
+) {
+    val status: String
+     get() = "${position.x} ${position.y} $orientation"
+}
