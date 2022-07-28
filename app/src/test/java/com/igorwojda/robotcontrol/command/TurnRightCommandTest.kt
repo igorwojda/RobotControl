@@ -7,10 +7,10 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
 
-class RobotTurnRightCommandTest {
+class TurnRightCommandTest {
     private var robot: Robot = mockk(relaxUnitFun = true)
 
-    private var cut = RobotTurnRightCommand().apply {
+    private var cut = TurnRightCommand().apply {
         receiver = robot
     }
 

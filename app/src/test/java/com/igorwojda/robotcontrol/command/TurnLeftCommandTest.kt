@@ -7,66 +7,60 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
 
-class RobotMoveForwardCommandTest {
+class TurnLeftCommandTest {
     private var robot: Robot = mockk(relaxUnitFun = true)
 
-    private var cut = RobotMoveForwardCommand().apply {
+    private var cut = TurnLeftCommand().apply {
         receiver = robot
     }
 
     @Test
-    fun `given positionY 2 and orientation N when execute positionY 3`() {
+    fun `given orientation N when execute orientation W`() {
         // given
         every { robot.orientation } returns Orientation.N
-        every { robot.positionY } returns START_POSITION
 
         // when
         cut.execute()
 
         // then
-        verify { robot.positionY  = 3 }
+        verify { robot.orientation = Orientation.W }
     }
 
     @Test
-    fun `given positionY 2 and orientation S when execute positionY 1`() {
+    fun `given orientation S when execute orientation E`() {
         // given
         every { robot.orientation } returns Orientation.S
-        every { robot.positionY } returns START_POSITION
 
         // when
         cut.execute()
 
         // then
-        verify { robot.positionY = START_POSITION - 1 }
+        verify { robot.orientation = Orientation.E }
     }
 
+
     @Test
-    fun `given positionX 2 and orientation E when execute positionX 1`() {
+    fun `given orientation E when execute orientation N`() {
         // given
         every { robot.orientation } returns Orientation.E
-        every { robot.positionX } returns START_POSITION
 
         // when
         cut.execute()
 
         // then
-        verify { robot.positionX = START_POSITION + 1 }
+        verify { robot.orientation = Orientation.N }
     }
+
 
     @Test
-    fun `given positionX 2 and orientation W when execute positionX 1`() {
+    fun `given orientation W when execute orientation S`() {
         // given
         every { robot.orientation } returns Orientation.W
-        every { robot.positionX } returns START_POSITION
 
         // when
         cut.execute()
 
         // then
-        verify { robot.positionX = START_POSITION - 1 }
-    }
-
-    companion object {
-        private const val START_POSITION = 2
+        verify { robot.orientation = Orientation.S }
     }
 }

@@ -5,7 +5,7 @@ import com.igorwojda.robotcontrol.data.CommandSequence
 import com.igorwojda.robotcontrol.data.StartData
 import com.igorwojda.robotcontrol.enum.Orientation
 import com.igorwojda.robotcontrol.command.CommandType
-import com.igorwojda.robotcontrol.command.RobotCommand
+import com.igorwojda.robotcontrol.command.Command
 import kotlin.reflect.KClass
 
 class InputParser(str: String) {
@@ -41,7 +41,7 @@ class InputParser(str: String) {
         getInstruction(code)
     }
 
-    private fun getInstruction(code: Char): RobotCommand {
+    private fun getInstruction(code: Char): Command {
         val commandType = getInstructionClass(code)
         val commandConstructor = getParameterlessConstructor(commandType)
         return commandConstructor.call()
@@ -53,7 +53,7 @@ class InputParser(str: String) {
             "Unknown command code: $code"
         }.clazz
 
-    private fun getParameterlessConstructor(clazz: KClass<out RobotCommand>) = requireNotNull(
+    private fun getParameterlessConstructor(clazz: KClass<out Command>) = requireNotNull(
             clazz.constructors.firstOrNull { it.parameters.isEmpty() }
         ) {
             "No parameterless constructor found for command type: ${clazz.qualifiedName}"

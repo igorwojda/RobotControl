@@ -1,5 +1,5 @@
 package com.igorwojda.robotcontrol.command
 
-abstract class RobotMoveCommand : RobotCommand() {
+abstract class MoveCommand : Command() {
     abstract override fun execute()
 }
