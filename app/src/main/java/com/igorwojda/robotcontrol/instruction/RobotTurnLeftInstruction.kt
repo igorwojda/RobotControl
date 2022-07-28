@@ -1,18 +1,18 @@
-package com.igorwojda.robotcontrol.command
+package com.igorwojda.robotcontrol.instruction
 
 import com.igorwojda.robotcontrol.enum.Orientation.E
 import com.igorwojda.robotcontrol.enum.Orientation.N
 import com.igorwojda.robotcontrol.enum.Orientation.S
 import com.igorwojda.robotcontrol.enum.Orientation.W
 
-class RobotTurnRightCommand : RobotCommand() {
+class RobotTurnLeftInstruction : RobotInstruction() {
     override fun execute() {
         requireNotNull(receiver) { "receiver is null" }.also {
             when (it.orientation) {
-                N -> it.orientation = E
-                S -> it.orientation = W
-                E -> it.orientation = S
-                W -> it.orientation = N
+                N -> it.orientation = W
+                S -> it.orientation = E
+                E -> it.orientation = N
+                W -> it.orientation = S
             }
         }
     }

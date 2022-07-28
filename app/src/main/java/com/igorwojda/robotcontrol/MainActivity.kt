@@ -3,11 +3,11 @@ package com.igorwojda.robotcontrol
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
-import com.igorwojda.robotcontrol.command.RobotMoveCommand
-import com.igorwojda.robotcontrol.data.ProhibitedRobotMove
+import com.igorwojda.robotcontrol.instruction.RobotMoveInstruction
+import com.igorwojda.robotcontrol.data.ProhibitedMove
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.databinding.ActivityMainBinding
-import com.igorwojda.robotcontrol.extensions.readAssetAsString
+import com.igorwojda.robotcontrol.extension.readAssetAsString
 
 class MainActivity : AppCompatActivity() {
     private val defaultDirections by lazy { application.readAssetAsString("directions.txt") }
@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.log.movementMethod = ScrollingMovementMethod()
-
         binding.instructionsTextView.text = defaultDirections
+
         binding.runEarthInstructionsButton.setOnClickListener {
             executeEarthInstructions()
         }
@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity() {
         addLogLine("Board size ${inputParser.boardSize.x}x${inputParser.boardSize.y}")
         addLogLine()
 
-        val prohibitedMoves = mutableListOf<ProhibitedRobotMove>()
+        val prohibitedMoves = mutableListOf<ProhibitedMove>()
 
-        inputParser.moveSequences.forEach { moveSequence ->
+        inputParser.instructionSequences.forEach { moveSequence ->
             val robot = Robot(moveSequence.startPosition.x, moveSequence.startPosition.y, moveSequence.startOrientation)
             addLogLine(moveSequence.toString())
 
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 val command = moveSequence.commands[commandIndex]
 
                 //one robot died here, so we want to save another
-                if (command is RobotMoveCommand
+                if (command is RobotMoveInstruction
                     && prohibitedMoves.any { it.positionX == robot.positionX
                         && it.positionY == robot.positionY
                         && it.orientation == robot.orientation }
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     addLogLine("Robot was lost")
 
                     if (prohibitedMoves.none { it.position == oldRobot.position && it.orientation == oldRobot.orientation }) {
-                        ProhibitedRobotMove(oldRobot.positionX, oldRobot.positionY, oldRobot.orientation).also {
+                        ProhibitedMove(oldRobot.positionX, oldRobot.positionY, oldRobot.orientation).also {
                             prohibitedMoves.add(it)
                             addLogLine("Added $it")
                         }

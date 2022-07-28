@@ -1,4 +1,4 @@
-package com.igorwojda.robotcontrol.extensions
+package com.igorwojda.robotcontrol.extension
 
 import android.app.Application
 

@@ -1,12 +1,12 @@
 package com.igorwojda.robotcontrol
 
 import android.graphics.Point
-import com.igorwojda.robotcontrol.command.RobotMoveForwardCommand
-import com.igorwojda.robotcontrol.command.RobotTurnLeftCommand
-import com.igorwojda.robotcontrol.command.RobotTurnRightCommand
-import com.igorwojda.robotcontrol.data.MoveSequence
+import com.igorwojda.robotcontrol.data.InstructionSequence
 import com.igorwojda.robotcontrol.data.StartData
 import com.igorwojda.robotcontrol.enum.Orientation
+import com.igorwojda.robotcontrol.instruction.RobotMoveForwardInstruction
+import com.igorwojda.robotcontrol.instruction.RobotTurnLeftInstruction
+import com.igorwojda.robotcontrol.instruction.RobotTurnRightInstruction
 
 class InputParser(str: String) {
     private val inputLines = str.split("\n")
@@ -19,7 +19,7 @@ class InputParser(str: String) {
         Point(x , y)
     }
 
-    val moveSequences by lazy {
+    val instructionSequences by lazy {
         inputLines
             .takeLast(inputLines.lastIndex)
             .filter { it.isNotBlank() }
@@ -28,21 +28,21 @@ class InputParser(str: String) {
                 val startDataLine = it[0]
                 val startData = getStartData(startDataLine)
                 val commandsLine = it[1]
-                val commands = getCommands(commandsLine)
-                MoveSequence(startData.position, startData.orientation, commands)
+                val commands = getInstructions(commandsLine)
+                InstructionSequence(startData.position, startData.orientation, commands)
             }
     }
 
-    private fun getCommands(str: String) = str.map {
+    private fun getInstructions(str: String) = str.map {
         require(str.length <= 100) {
             "Maximum number of commands allowed is 100, current number of commands: ${str.length}"
         }
 
         when (it) {
-            'F' -> RobotMoveForwardCommand()
-            'R' -> RobotTurnRightCommand()
-            'L' -> RobotTurnLeftCommand()
-            else -> throw RuntimeException("Unknown Command")
+            'F' -> RobotMoveForwardInstruction()
+            'R' -> RobotTurnRightInstruction()
+            'L' -> RobotTurnLeftInstruction()
+            else -> throw RuntimeException("Unknown Instruction")
         }
     }
 
