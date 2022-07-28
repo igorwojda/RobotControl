@@ -1,4 +1,10 @@
-# Problem: Martian Robots
+# Martian Robots
+
+## How to open
+
+Use [Android Studio](https://developer.android.com/studio) to open this project.
+
+## The Problem
 
 The surface of Mars can be modelled by a rectangular grid around which robots are able to
 move according to instructions provided from Earth. You are to write a program that
