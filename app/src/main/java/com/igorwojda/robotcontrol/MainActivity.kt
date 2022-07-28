@@ -1,28 +1,39 @@
 package com.igorwojda.robotcontrol
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
+import androidx.appcompat.app.AppCompatActivity
 import com.igorwojda.robotcontrol.command.RobotMoveCommand
 import com.igorwojda.robotcontrol.data.ProhibitedRobotMove
 import com.igorwojda.robotcontrol.data.Robot
+import com.igorwojda.robotcontrol.databinding.ActivityMainBinding
 import com.igorwojda.robotcontrol.extensions.readAssetAsString
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val defaultDirections by lazy { application.readAssetAsString("directions.txt") }
     private val earthInstructions: String
-        get() = if (instructionsTextView.text.isNullOrBlank()) defaultDirections else instructionsTextView.text.toString()
+        get() = if (binding.instructionsTextView.text.isNullOrBlank()) {
+            defaultDirections
+        } else {
+            binding.instructionsTextView.text.toString()
+        }
+
     private var logMessages = mutableListOf<String>()
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        log.movementMethod = ScrollingMovementMethod()
+        binding.log.movementMethod = ScrollingMovementMethod()
 
-        instructionsTextView.text = defaultDirections
-        runEarthInstructionsButton.setOnClickListener { executeEarthInstructions() }
+        binding.instructionsTextView.text = defaultDirections
+        binding.runEarthInstructionsButton.setOnClickListener {
+            executeEarthInstructions()
+        }
 
         executeEarthInstructions()
     }
@@ -80,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayLog() {
-        log.text = logMessages.joinToString(transform = { "$it \n" }, separator = "")
+        binding.log.text = logMessages.joinToString(transform = { "$it \n" }, separator = "")
     }
 
     private fun clearLog() {
