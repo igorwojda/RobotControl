@@ -2,5 +2,5 @@
     <string name="app_name">RobotControl</string>
     <string name="log">Log</string>
     <string name="input">Input</string>
-    <string name="run_earth_instructions">Run earth instructions</string>
+    <string name="run_earth_commands">Run earth instructions</string>
 </resources>

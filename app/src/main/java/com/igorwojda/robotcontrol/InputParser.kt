@@ -1,11 +1,11 @@
 package com.igorwojda.robotcontrol
 
 import android.graphics.Point
-import com.igorwojda.robotcontrol.data.InstructionSequence
+import com.igorwojda.robotcontrol.data.CommandSequence
 import com.igorwojda.robotcontrol.data.StartData
 import com.igorwojda.robotcontrol.enum.Orientation
-import com.igorwojda.robotcontrol.instruction.InstructionType
-import com.igorwojda.robotcontrol.instruction.RobotInstruction
+import com.igorwojda.robotcontrol.command.CommandType
+import com.igorwojda.robotcontrol.command.RobotCommand
 import kotlin.reflect.KClass
 
 class InputParser(str: String) {
@@ -20,7 +20,7 @@ class InputParser(str: String) {
         Point(x, y)
     }
 
-    val instructionSequences by lazy {
+    val commandSequences by lazy {
         inputLines
             .takeLast(inputLines.lastIndex)
             .filter { it.isNotBlank() }
@@ -29,7 +29,7 @@ class InputParser(str: String) {
                 val (startDataLine, commandsLine) = it
                 val startData = getStartData(startDataLine)
                 val commands = getInstructions(commandsLine)
-                InstructionSequence(startData.position, startData.orientation, commands)
+                CommandSequence(startData.position, startData.orientation, commands)
             }
     }
 
@@ -41,22 +41,22 @@ class InputParser(str: String) {
         getInstruction(code)
     }
 
-    private fun getInstruction(code: Char): RobotInstruction {
-        val instructionType = getInstructionClass(code)
-        val instructionConstructor = getParameterlessConstructor(instructionType)
-        return instructionConstructor.call()
+    private fun getInstruction(code: Char): RobotCommand {
+        val commandType = getInstructionClass(code)
+        val commandConstructor = getParameterlessConstructor(commandType)
+        return commandConstructor.call()
     }
 
     private fun getInstructionClass(code: Char) = requireNotNull(
-            InstructionType.values().firstOrNull { it.code == code }
+            CommandType.values().firstOrNull { it.code == code }
         ) {
-            "Unknown instruction code: $code"
+            "Unknown command code: $code"
         }.clazz
 
-    private fun getParameterlessConstructor(clazz: KClass<out RobotInstruction>) = requireNotNull(
+    private fun getParameterlessConstructor(clazz: KClass<out RobotCommand>) = requireNotNull(
             clazz.constructors.firstOrNull { it.parameters.isEmpty() }
         ) {
-            "No parameterless constructor found for instruction type: ${clazz.qualifiedName}"
+            "No parameterless constructor found for command type: ${clazz.qualifiedName}"
         }
 
     private fun getStartData(str: String): StartData {

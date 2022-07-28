@@ -19,7 +19,7 @@
                 android:textSize="20sp" />
 
         <TextView
-                android:id="@+id/instructionsTextView"
+                android:id="@+id/commands_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:inputType="textMultiLine"
@@ -30,7 +30,7 @@
                 android:id="@+id/runEarthInstructionsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/run_earth_instructions" />
+                android:text="@string/run_earth_commands" />
 
         <TextView
                 android:layout_width="match_parent"

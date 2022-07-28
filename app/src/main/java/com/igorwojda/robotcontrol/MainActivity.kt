@@ -3,7 +3,7 @@ package com.igorwojda.robotcontrol
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
-import com.igorwojda.robotcontrol.instruction.RobotMoveInstruction
+import com.igorwojda.robotcontrol.command.RobotMoveCommand
 import com.igorwojda.robotcontrol.data.ProhibitedMove
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.databinding.ActivityMainBinding
@@ -12,10 +12,10 @@ import com.igorwojda.robotcontrol.extension.readAssetAsString
 class MainActivity : AppCompatActivity() {
     private val defaultDirections by lazy { application.readAssetAsString("directions.txt") }
     private val earthInstructions: String
-        get() = if (binding.instructionsTextView.text.isNullOrBlank()) {
+        get() = if (binding.commandsTextView.text.isNullOrBlank()) {
             defaultDirections
         } else {
-            binding.instructionsTextView.text.toString()
+            binding.commandsTextView.text.toString()
         }
 
     private var logMessages = mutableListOf<String>()
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.log.movementMethod = ScrollingMovementMethod()
-        binding.instructionsTextView.text = defaultDirections
+        binding.commandsTextView.text = defaultDirections
 
         binding.runEarthInstructionsButton.setOnClickListener {
             executeEarthInstructions()
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         val prohibitedMoves = mutableListOf<ProhibitedMove>()
 
-        inputParser.instructionSequences.forEach { moveSequence ->
+        inputParser.commandSequences.forEach { moveSequence ->
             val robot = Robot(moveSequence.startPosition.x, moveSequence.startPosition.y, moveSequence.startOrientation)
             addLogLine(moveSequence.toString())
 
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 val command = moveSequence.commands[commandIndex]
 
                 //one robot died here, so we want to save another
-                if (command is RobotMoveInstruction
+                if (command is RobotMoveCommand
                     && prohibitedMoves.any { it.positionX == robot.positionX
                         && it.positionY == robot.positionY
                         && it.orientation == robot.orientation }

@@ -1,4 +1,4 @@
-package com.igorwojda.robotcontrol.instruction
+package com.igorwojda.robotcontrol.command
 
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.enum.Orientation
@@ -7,10 +7,10 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
 
-class RobotMoveForwardInstructionTest {
+class RobotMoveForwardCommandTest {
     private var robot: Robot = mockk(relaxUnitFun = true)
 
-    private var cut = RobotMoveForwardInstruction().apply {
+    private var cut = RobotMoveForwardCommand().apply {
         receiver = robot
     }
 
