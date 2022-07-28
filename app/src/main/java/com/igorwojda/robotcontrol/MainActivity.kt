@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val prohibitedMoves = mutableListOf<ProhibitedMove>()
 
         inputParser.commandSequences.forEach { moveSequence ->
-            val robot = Robot(moveSequence.startPosition.x, moveSequence.startPosition.y, moveSequence.startOrientation)
+            val robot = Robot(moveSequence.startCoordinate.x, moveSequence.startCoordinate.y, moveSequence.startOrientation)
             addLogLine(moveSequence.toString())
 
             for (commandIndex in 0 until moveSequence.commands.size) {
@@ -57,8 +57,8 @@ class MainActivity : AppCompatActivity() {
                 //one robot died here, so we want to save another
                 if (command is MoveCommand
                     && prohibitedMoves.any {
-                        it.positionX == robot.positionX
-                            && it.positionY == robot.positionY
+                        it.coordinateX == robot.coordinateX
+                            && it.coordinateY == robot.coordinateY
                             && it.orientation == robot.orientation
                     }
                 ) {
@@ -71,14 +71,14 @@ class MainActivity : AppCompatActivity() {
                 command.execute()
                 addLogLine("${command.javaClass.simpleName}: ${oldRobot.status} -> ${robot.status}")
 
-                if (robot.positionX > inputParser.boardSize.x
-                    || robot.positionY > inputParser.boardSize.y
+                if (robot.coordinateX > inputParser.boardSize.x
+                    || robot.coordinateY > inputParser.boardSize.y
                 ) {
                     //mark this tile as dangerous, so other robots will survive
                     addLogLine("Robot was lost")
 
-                    if (prohibitedMoves.none { it.position == oldRobot.position && it.orientation == oldRobot.orientation }) {
-                        ProhibitedMove(oldRobot.positionX, oldRobot.positionY, oldRobot.orientation).also {
+                    if (prohibitedMoves.none { it.coordinate == oldRobot.coordinate && it.orientation == oldRobot.orientation }) {
+                        ProhibitedMove(oldRobot.coordinateX, oldRobot.coordinateY, oldRobot.orientation).also {
                             prohibitedMoves.add(it)
                             addLogLine("Added $it")
                         }

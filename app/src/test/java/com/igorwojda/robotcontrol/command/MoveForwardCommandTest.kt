@@ -6,6 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class MoveForwardCommandTest {
     private var robot: Robot = mockk(relaxUnitFun = true)
@@ -15,55 +16,55 @@ class MoveForwardCommandTest {
     }
 
     @Test
-    fun `given positionY 2 and orientation N when execute positionY 3`() {
+    fun `given coordinateY 2 and orientation N when execute coordinateY 3`() {
         // given
         every { robot.orientation } returns Orientation.N
-        every { robot.positionY } returns START_POSITION
+        every { robot.coordinateY } returns START_POSITION
 
         // when
         cut.execute()
 
         // then
-        verify { robot.positionY = 3 }
+        verify { robot.coordinateY = 3 }
     }
 
     @Test
-    fun `given positionY 2 and orientation S when execute positionY 1`() {
+    fun `given coordinateY 2 and orientation S when execute coordinateY 1`() {
         // given
         every { robot.orientation } returns Orientation.S
-        every { robot.positionY } returns START_POSITION
+        every { robot.coordinateY } returns START_POSITION
 
         // when
         cut.execute()
 
         // then
-        verify { robot.positionY = START_POSITION - 1 }
+        verify { robot.coordinateY = START_POSITION - 1 }
     }
 
     @Test
-    fun `given positionX 2 and orientation E when execute positionX 1`() {
+    fun `given coordinateX 2 and orientation E when execute coordinateX 1`() {
         // given
         every { robot.orientation } returns Orientation.E
-        every { robot.positionX } returns START_POSITION
+        every { robot.coordinateX } returns START_POSITION
 
         // when
         cut.execute()
 
         // then
-        verify { robot.positionX = START_POSITION + 1 }
+        verify { robot.coordinateX = START_POSITION + 1 }
     }
 
     @Test
-    fun `given positionX 2 and orientation W when execute positionX 1`() {
+    fun `given coordinateX 2 and orientation W when execute coordinateX 1`() {
         // given
         every { robot.orientation } returns Orientation.W
-        every { robot.positionX } returns START_POSITION
+        every { robot.coordinateX } returns START_POSITION
 
         // when
         cut.execute()
 
         // then
-        verify { robot.positionX = START_POSITION - 1 }
+        verify { robot.coordinateX = START_POSITION - 1 }
     }
 
     companion object {

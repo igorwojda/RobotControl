@@ -4,9 +4,9 @@ import android.graphics.Point
 import com.igorwojda.robotcontrol.enum.Orientation
 
 data class ProhibitedMove(
-    val positionX: Int,
-    val positionY: Int,
+    val coordinateX: Int,
+    val coordinateY: Int,
     val orientation: Orientation,
 ) {
-    val position = Point(positionX, positionY)
+    val coordinate = Point(coordinateX, coordinateY)
 }

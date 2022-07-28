@@ -29,7 +29,7 @@ class InputParser(str: String) {
                 val (startDataLine, commandsLine) = it
                 val startData = getStartData(startDataLine)
                 val commands = getInstructions(commandsLine)
-                CommandSequence(startData.position, startData.orientation, commands)
+                CommandSequence(startData.coordinate, startData.orientation, commands)
             }
     }
 
@@ -61,7 +61,7 @@ class InputParser(str: String) {
 
     private fun getStartData(str: String): StartData {
         val (x, y, orientation) = str.split(" ", limit = 3)
-        val position = Point(x.toInt(), y.toInt())
-        return StartData(position, Orientation.valueOf(orientation))
+        val coordinate = Point(x.toInt(), y.toInt())
+        return StartData(coordinate, Orientation.valueOf(orientation))
     }
 }

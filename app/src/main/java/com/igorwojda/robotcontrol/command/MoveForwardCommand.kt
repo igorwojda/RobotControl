@@ -9,10 +9,10 @@ class MoveForwardCommand : MoveCommand() {
     override fun execute() {
         requireNotNull(receiver) { "receiver is null" }.also {
             when (it.orientation) {
-                N -> it.positionY++
-                S -> it.positionY--
-                E -> it.positionX++
-                W -> it.positionX--
+                N -> it.coordinateY++
+                S -> it.coordinateY--
+                E -> it.coordinateX++
+                W -> it.coordinateX--
             }
         }
     }
