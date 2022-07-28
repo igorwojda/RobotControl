@@ -13,7 +13,7 @@ class InputParser(str: String) {
 
     val boardSize by lazy {
         val (x, y) = inputLines[0]
-            .split(" ", limit = 2)
+            .split(" ")
             .map { it.toInt() }
 
         require(x <= 50 && y <= 50) { "Maximum allowed board size is 50x50, current size ${x}x$y" }
