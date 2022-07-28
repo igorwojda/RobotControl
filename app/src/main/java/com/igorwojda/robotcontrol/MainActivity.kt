@@ -67,9 +67,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 command.receiver = robot
-                val oldRobot = robot.copy()
+                val prevRobot = robot.copy()
                 command.execute()
-                addLogLine("${command.javaClass.simpleName}: ${oldRobot.status} -> ${robot.status}")
+                addLogLine("${command.javaClass.simpleName}: ${prevRobot.status} -> ${robot.status}")
 
                 if (robot.coordinateX > inputParser.boardSize.x
                     || robot.coordinateY > inputParser.boardSize.y
@@ -77,8 +77,8 @@ class MainActivity : AppCompatActivity() {
                     //mark this tile as dangerous, so other robots will survive
                     addLogLine("Robot was lost")
 
-                    if (prohibitedMoves.none { it.coordinate == oldRobot.coordinate && it.orientation == oldRobot.orientation }) {
-                        ProhibitedMove(oldRobot.coordinateX, oldRobot.coordinateY, oldRobot.orientation).also {
+                    if (prohibitedMoves.none { it.coordinate == prevRobot.coordinate && it.orientation == prevRobot.orientation }) {
+                        ProhibitedMove(prevRobot.coordinateX, prevRobot.coordinateY, prevRobot.orientation).also {
                             prohibitedMoves.add(it)
                             addLogLine("Added $it")
                         }
