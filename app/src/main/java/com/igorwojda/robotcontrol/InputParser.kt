@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 class InputParser(str: String) {
     private val inputLines = str.split("\n")
 
-    val boardSize by lazy {
+    val gridSize by lazy {
         val (x, y) = inputLines[0]
             .split(" ")
             .map { it.toInt() }
