@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         addLogLine("Board size ${inputParser.boardSize.x}x${inputParser.boardSize.y}")
         addLogLine()
 
-        val prohibitedMoves = mutableListOf<ProhibitedMove>()
+        val prohibitedMoves = mutableSetOf<ProhibitedMove>()
 
         inputParser.commandSequences.forEach { commandSequence ->
             val robot = Robot(commandSequence.startCoordinate.x, commandSequence.startCoordinate.y, commandSequence.startOrientation)
@@ -74,15 +74,19 @@ class MainActivity : AppCompatActivity() {
                 if (robot.coordinateX > inputParser.boardSize.x
                     || robot.coordinateY > inputParser.boardSize.y
                 ) {
-                    //mark this tile as dangerous, so other robots will survive
+                    //mark this move as dangerous, so other robots will survive
                     addLogLine("Robot was lost")
 
-                    if (prohibitedMoves.none { it.coordinate == prevRobot.coordinate && it.orientation == prevRobot.orientation }) {
-                        ProhibitedMove(prevRobot.coordinateX, prevRobot.coordinateY, prevRobot.orientation).also {
-                            prohibitedMoves.add(it)
-                            addLogLine("Added $it")
-                        }
+                    val prohibitedMove = ProhibitedMove(
+                        prevRobot.coordinateX,
+                        prevRobot.coordinateY,
+                        prevRobot.orientation
+                    )
+
+                    if (prohibitedMoves.add(prohibitedMove)) {
+                        addLogLine("Added $prohibitedMove")
                     }
+
                     break
                 }
             }
