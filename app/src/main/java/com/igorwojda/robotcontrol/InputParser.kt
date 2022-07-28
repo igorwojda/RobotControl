@@ -9,10 +9,13 @@ import com.igorwojda.robotcontrol.command.Command
 import kotlin.reflect.KClass
 
 class InputParser(str: String) {
-    private val inputLines = str.split("\n")
+    private val inputLines by lazy {
+        str.split("\n")
+    }
 
-    val gridSize by lazy {
-        val (x, y) = inputLines[0]
+    val boardSize by lazy {
+        val boardSizeLine = inputLines[0]
+        val (x, y) = boardSizeLine
             .split(" ")
             .map { it.toInt() }
 
@@ -22,7 +25,7 @@ class InputParser(str: String) {
 
     val commandSequences by lazy {
         inputLines
-            .takeLast(inputLines.lastIndex)
+            .drop(1) //drop board size line
             .filter { it.isNotBlank() }
             .chunked(2)
             .map {
