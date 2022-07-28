@@ -9,5 +9,6 @@ data class MoveSequence (
     val startOrientation: Orientation,
     val commands: List<RobotCommand>
 ) {
-    override fun toString() = "MoveSequence: ${startPosition.x} ${startPosition.y} ${startOrientation.name}"
+    override fun toString() = "MoveSequence start position: " +
+        "${startPosition.x} ${startPosition.y} ${startOrientation.name}"
 }

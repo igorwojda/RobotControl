@@ -14,7 +14,6 @@ A robot position consists of a grid coordinate (a pair of integers: x-coordinate
 y-coordinate) and an orientation (N, S, E, W for north, south, east, and west).
 A robot instructions:
 
-
 - Left : the robot turns left 90 degrees and remains on the current grid point.
 - Right : the robot turns right 90 degrees and remains on the current grid point.
 - Forward : the robot moves forward one grid point in the direction of the current

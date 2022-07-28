@@ -2,71 +2,65 @@ package com.igorwojda.robotcontrol.command
 
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.enum.Orientation
-import com.nhaarman.mockitokotlin2.given
-import com.nhaarman.mockitokotlin2.verify
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class RobotTurnRightCommandTest {
-    @Mock
-    lateinit var mockRobot: Robot
+    private var robot: Robot = mockk(relaxUnitFun = true)
 
-    private var cut = RobotTurnRightCommand()
+    private var cut = RobotTurnRightCommand().apply {
+        receiver = robot
+    }
 
     @Test
     fun `given orientation N when execute orientation E`() {
         // given
-        given(mockRobot.orientation).willReturn(Orientation.N)
-        cut.receiver = mockRobot
+        every { robot.orientation }  returns Orientation.N
 
         // when
         cut.execute()
 
         // then
-        verify(mockRobot).orientation = Orientation.E
+        verify { robot.orientation = Orientation.E }
     }
 
     @Test
     fun `given orientation S when execute orientation W`() {
         // given
-        given(mockRobot.orientation).willReturn(Orientation.S)
-        cut.receiver = mockRobot
+        every { robot.orientation }  returns Orientation.S
 
         // when
         cut.execute()
 
         // then
-        verify(mockRobot).orientation = Orientation.W
+        verify { robot.orientation = Orientation.W }
     }
 
 
     @Test
     fun `given orientation E when execute orientation S`() {
         // given
-        given(mockRobot.orientation).willReturn(Orientation.E)
-        cut.receiver = mockRobot
+        every { robot.orientation }  returns Orientation.E
 
         // when
         cut.execute()
 
         // then
-        verify(mockRobot).orientation = Orientation.S
+        verify { robot.orientation = Orientation.S }
     }
 
 
     @Test
     fun `given orientation W when execute orientation N`() {
         // given
-        given(mockRobot.orientation).willReturn(Orientation.W)
-        cut.receiver = mockRobot
+        every { robot.orientation }  returns Orientation.W
 
         // when
         cut.execute()
 
         // then
-        verify(mockRobot).orientation = Orientation.N
+        verify { robot.orientation = Orientation.N }
     }
 }
