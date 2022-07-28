@@ -26,9 +26,8 @@ class InputParser(str: String) {
             .filter { it.isNotBlank() }
             .chunked(2)
             .map {
-                val startDataLine = it[0]
+                val (startDataLine, commandsLine) = it
                 val startData = getStartData(startDataLine)
-                val commandsLine = it[1]
                 val commands = getInstructions(commandsLine)
                 InstructionSequence(startData.position, startData.orientation, commands)
             }
