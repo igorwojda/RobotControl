@@ -48,16 +48,16 @@ class InputParser(str: String) {
     }
 
     private fun getInstructionClass(code: Char) = requireNotNull(
-            CommandType.values().firstOrNull { it.code == code }
-        ) {
-            "Unknown command code: $code"
-        }.clazz
+        CommandType.values().firstOrNull { it.code == code }
+    ) {
+        "Unknown command code: $code"
+    }.clazz
 
     private fun getParameterlessConstructor(clazz: KClass<out Command>) = requireNotNull(
-            clazz.constructors.firstOrNull { it.parameters.isEmpty() }
-        ) {
-            "No parameterless constructor found for command type: ${clazz.qualifiedName}"
-        }
+        clazz.constructors.firstOrNull { it.parameters.isEmpty() }
+    ) {
+        "No parameterless constructor found for command type: ${clazz.qualifiedName}"
+    }
 
     private fun getStartData(str: String): StartData {
         val (x, y, orientation) = str.split(" ", limit = 3)

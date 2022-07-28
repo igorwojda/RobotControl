@@ -24,7 +24,7 @@ class MoveForwardCommandTest {
         cut.execute()
 
         // then
-        verify { robot.positionY  = 3 }
+        verify { robot.positionY = 3 }
     }
 
     @Test

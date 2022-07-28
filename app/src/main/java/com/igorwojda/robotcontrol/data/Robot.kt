@@ -6,7 +6,7 @@ import com.igorwojda.robotcontrol.enum.Orientation
 data class Robot(
     var positionX: Int,
     var positionY: Int,
-    var orientation: Orientation
+    var orientation: Orientation,
 ) {
     val position = Point(positionX, positionY)
 

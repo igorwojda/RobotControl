@@ -5,5 +5,5 @@ import com.igorwojda.robotcontrol.enum.Orientation
 
 data class StartData(
     val position: Point,
-    val orientation: Orientation
+    val orientation: Orientation,
 )

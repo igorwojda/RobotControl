@@ -4,7 +4,7 @@ import kotlin.reflect.KClass
 
 enum class CommandType(
     val code: Char,
-    val clazz: KClass<out Command>
+    val clazz: KClass<out Command>,
 ) {
     MOVE_FORWARD('F', MoveForwardCommand::class),
     TURN_LEFT('L', TurnLeftCommand::class),

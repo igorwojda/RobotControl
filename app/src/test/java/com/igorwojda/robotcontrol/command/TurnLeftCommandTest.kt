@@ -38,7 +38,6 @@ class TurnLeftCommandTest {
         verify { robot.orientation = Orientation.E }
     }
 
-
     @Test
     fun `given orientation E when execute orientation N`() {
         // given
@@ -50,7 +49,6 @@ class TurnLeftCommandTest {
         // then
         verify { robot.orientation = Orientation.N }
     }
-
 
     @Test
     fun `given orientation W when execute orientation S`() {

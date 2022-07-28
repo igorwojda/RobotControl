@@ -17,7 +17,7 @@ class TurnRightCommandTest {
     @Test
     fun `given orientation N when execute orientation E`() {
         // given
-        every { robot.orientation }  returns Orientation.N
+        every { robot.orientation } returns Orientation.N
 
         // when
         cut.execute()
@@ -29,7 +29,7 @@ class TurnRightCommandTest {
     @Test
     fun `given orientation S when execute orientation W`() {
         // given
-        every { robot.orientation }  returns Orientation.S
+        every { robot.orientation } returns Orientation.S
 
         // when
         cut.execute()
@@ -38,11 +38,10 @@ class TurnRightCommandTest {
         verify { robot.orientation = Orientation.W }
     }
 
-
     @Test
     fun `given orientation E when execute orientation S`() {
         // given
-        every { robot.orientation }  returns Orientation.E
+        every { robot.orientation } returns Orientation.E
 
         // when
         cut.execute()
@@ -51,11 +50,10 @@ class TurnRightCommandTest {
         verify { robot.orientation = Orientation.S }
     }
 
-
     @Test
     fun `given orientation W when execute orientation N`() {
         // given
-        every { robot.orientation }  returns Orientation.W
+        every { robot.orientation } returns Orientation.W
 
         // when
         cut.execute()
