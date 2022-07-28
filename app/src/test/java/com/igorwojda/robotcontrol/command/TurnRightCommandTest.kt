@@ -5,7 +5,7 @@ import com.igorwojda.robotcontrol.enum.Orientation
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class TurnRightCommandTest {
     private var robot: Robot = mockk(relaxUnitFun = true)
