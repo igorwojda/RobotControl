@@ -5,7 +5,7 @@ import com.igorwojda.robotcontrol.enum.Orientation.N
 import com.igorwojda.robotcontrol.enum.Orientation.S
 import com.igorwojda.robotcontrol.enum.Orientation.W
 
-class MoveForwardCommand : MoveCommand() {
+class MoveForwardCommand : Command() {
     override fun execute() {
         requireNotNull(receiver) { "receiver is null" }.also {
             when (it.orientation) {
