@@ -1,6 +1,7 @@
 package com.igorwojda.robotcontrol.command
 
 import com.igorwojda.robotcontrol.data.Robot
+import com.igorwojda.robotcontrol.extension.parameterlessConstructor
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -14,6 +15,7 @@ sealed class Command(
     companion object {
 
         // sealedSubclasses property has bug with incremental compile
+        // Run clean project action to fix it
         // https://youtrack.jetbrains.com/issue/KT-46906
         private val map by lazy {
             Command::class.sealedSubclasses
@@ -31,14 +33,13 @@ sealed class Command(
 
         private fun getNewInstance(command: Command): Command {
             val clazz = command::class
-            val constructor = getParameterlessConstructor(clazz)
-            return constructor.call()
-        }
+            val constructor = clazz.parameterlessConstructor
 
-        private fun getParameterlessConstructor(clazz: KClass<out Command>) = requireNotNull(
-            clazz.constructors.firstOrNull { it.parameters.isEmpty() }
-        ) {
-            "No parameterless constructor found for command type: ${clazz.qualifiedName}"
+            requireNotNull(constructor) {
+                "No parameterless constructor found for the command ${clazz.simpleName}"
+            }
+
+            return constructor.call()
         }
 
         val values = map.toList()
