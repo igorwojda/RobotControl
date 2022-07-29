@@ -5,7 +5,7 @@ import com.igorwojda.robotcontrol.enum.Orientation.N
 import com.igorwojda.robotcontrol.enum.Orientation.S
 import com.igorwojda.robotcontrol.enum.Orientation.W
 
-class TurnRightCommand : Command() {
+class TurnRightCommand : Command('R') {
     override fun execute() {
         requireNotNull(receiver) { "receiver is null" }.also {
             when (it.orientation) {

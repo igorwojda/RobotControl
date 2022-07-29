@@ -3,6 +3,7 @@ package com.igorwojda.robotcontrol
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
+import com.igorwojda.robotcontrol.command.Command
 import com.igorwojda.robotcontrol.command.MoveForwardCommand
 import com.igorwojda.robotcontrol.data.ProhibitedMove
 import com.igorwojda.robotcontrol.data.Robot
@@ -38,8 +39,25 @@ class MainActivity : AppCompatActivity() {
         executeEarthCommands()
     }
 
-    private fun executeEarthCommands() {
+    private fun initLog() {
         clearLog()
+        displayListOfSupportedCommands()
+    }
+
+    private fun displayListOfSupportedCommands() {
+        addLogLine("Supported commands:")
+        addLogLine()
+
+        Command.values.forEach {
+            addLogLine("${it.first} - ${it.second::class.simpleName}")
+        }
+
+        addLogLine()
+    }
+
+    private fun executeEarthCommands() {
+        initLog()
+
         val inputParser = InputParser(earthCommands)
 
         addLogLine("Board size ${inputParser.boardSize.x}x${inputParser.boardSize.y}")

@@ -41,25 +41,7 @@ class InputParser(str: String) {
             "Maximum number of commands allowed is 100, current number of commands: ${str.length}"
         }
 
-        getCommand(code)
-    }
-
-    private fun getCommand(code: Char): Command {
-        val commandType = getCommandClass(code)
-        val commandConstructor = getParameterlessConstructor(commandType)
-        return commandConstructor.call()
-    }
-
-    private fun getCommandClass(code: Char) = requireNotNull(
-        CommandType.values().firstOrNull { it.code == code }
-    ) {
-        "Unknown command code: $code"
-    }.clazz
-
-    private fun getParameterlessConstructor(clazz: KClass<out Command>) = requireNotNull(
-        clazz.constructors.firstOrNull { it.parameters.isEmpty() }
-    ) {
-        "No parameterless constructor found for command type: ${clazz.qualifiedName}"
+        Command.valueOf(code)
     }
 
     private fun getStartData(str: String): StartData {
