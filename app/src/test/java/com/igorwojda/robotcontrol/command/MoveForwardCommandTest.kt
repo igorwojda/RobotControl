@@ -22,8 +22,7 @@ class MoveForwardCommandTest {
         // given
         val robot = Robot(
             orientation = orientation,
-            coordinateX = startCoordinate.x,
-            coordinateY = startCoordinate.y,
+            coordinate = startCoordinate
         )
         cut.receiver = robot
 
@@ -31,8 +30,8 @@ class MoveForwardCommandTest {
         cut.execute()
 
         // then
-        assertThat(robot.coordinateX).isEqualTo(endCoordinate.x)
-        assertThat(robot.coordinateY).isEqualTo(endCoordinate.y)
+        assertThat(robot.coordinate.x).isEqualTo(endCoordinate.x)
+        assertThat(robot.coordinate.y).isEqualTo(endCoordinate.y)
     }
 
     companion object {

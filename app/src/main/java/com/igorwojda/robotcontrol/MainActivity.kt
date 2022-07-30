@@ -67,8 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         inputParser.commandSequences.forEach { commandSequence ->
             val robot = Robot(
-                commandSequence.startCoordinate.x,
-                commandSequence.startCoordinate.y,
+                commandSequence.startCoordinate,
                 commandSequence.startOrientation
             )
             addLogLine(commandSequence.toString())
@@ -92,8 +91,8 @@ class MainActivity : AppCompatActivity() {
                 command.execute()
                 addLogLine("${command.javaClass.simpleName}: ${prevRobot.status} -> ${robot.status}")
 
-                if (robot.coordinateX > inputParser.boardSize.x
-                    || robot.coordinateY > inputParser.boardSize.y
+                if (robot.coordinate.x > inputParser.boardSize.x
+                    || robot.coordinate.y > inputParser.boardSize.y
                 ) {
                     //mark this move as dangerous, so other robots will survive
                     addLogLine("Robot was lost")
