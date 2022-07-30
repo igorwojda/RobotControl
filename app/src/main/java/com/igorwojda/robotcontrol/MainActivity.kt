@@ -3,7 +3,7 @@ package com.igorwojda.robotcontrol
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
-import com.igorwojda.robotcontrol.command.MoveCommand
+import com.igorwojda.robotcontrol.command.MoveForwardCommand
 import com.igorwojda.robotcontrol.data.ProhibitedMove
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.databinding.ActivityMainBinding
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 val command = commandSequence.commands[commandIndex]
 
                 //one robot died here, so we want to save another
-                if (command is MoveCommand
+                if (command is MoveForwardCommand
                     && prohibitedMoves.any {
                         it.coordinateX == robot.coordinateX
                             && it.coordinateY == robot.coordinateY
