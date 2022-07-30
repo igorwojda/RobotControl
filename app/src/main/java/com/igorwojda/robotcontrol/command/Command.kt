@@ -2,7 +2,6 @@ package com.igorwojda.robotcontrol.command
 
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.extension.parameterlessConstructor
-import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 sealed class Command(
@@ -14,9 +13,6 @@ sealed class Command(
 
     companion object {
 
-        // sealedSubclasses property has bug with incremental compile
-        // Run clean project action to fix it
-        // https://youtrack.jetbrains.com/issue/KT-46906
         private val map by lazy {
             Command::class.sealedSubclasses
                 .mapNotNull { clazz -> clazz.primaryConstructor?.call() }
