@@ -93,5 +93,5 @@ Output:
 ## Known issues
 
 The [sealedSubclasses](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/sealed-subclasses.html) 
-property has bug with incremental compile (see [KT-46906](https://youtrack.jetbrains.com/issue/KT-46906). 
+property has bug with incremental compile (see [KT-46906](https://youtrack.jetbrains.com/issue/KT-46906)). 
 If app crashes after run then clean project (Build -> Clean Project).
