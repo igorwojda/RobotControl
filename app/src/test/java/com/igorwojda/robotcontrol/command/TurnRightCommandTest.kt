@@ -1,20 +1,15 @@
 package com.igorwojda.robotcontrol.command
 
+import com.google.common.truth.Truth.assertThat
+import com.igorwojda.robotcontrol.data.Coordinate
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.enum.Orientation
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 class TurnRightCommandTest {
-    private var robot: Robot = mockk(relaxUnitFun = true)
-
-    private var cut = TurnRightCommand().apply {
-        receiver = robot
-    }
+    private var cut = TurnRightCommand()
 
     @ParameterizedTest(name = "given orientation {0} when execute then orientation {1}")
     @MethodSource("provideValues")
@@ -23,13 +18,17 @@ class TurnRightCommandTest {
         endOrientation: Orientation,
     ) {
         // given
-        every { robot.orientation } returns startOrientation
+        val robot = Robot(
+            orientation = startOrientation,
+            coordinate = Coordinate(0, 0)
+        )
+        cut.receiver = robot
 
         // when
         cut.execute()
 
         // then
-        verify { robot.orientation = endOrientation }
+        assertThat(robot.orientation).isEqualTo(endOrientation)
     }
 
     companion object {

@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource
 class MoveForwardCommandTest {
     private var cut = MoveForwardCommand()
 
-    @ParameterizedTest(name = "given {1}, orientation {0} when execute then position {2}, orientation {0}")
+    @ParameterizedTest(name = "given {1}, orientation {0} when execute then position {2}")
     @MethodSource("provideValues")
     fun `execute`(
         orientation: Orientation,
