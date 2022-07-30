@@ -1,6 +1,5 @@
 package com.igorwojda.robotcontrol.data
 
-import android.graphics.Point
 import com.igorwojda.robotcontrol.enum.Orientation
 
 data class Robot(
@@ -8,7 +7,7 @@ data class Robot(
     var coordinateY: Int,
     var orientation: Orientation,
 ) {
-    val coordinate = Point(coordinateX, coordinateY)
+    val coordinate = Coordinate(coordinateX, coordinateY)
 
     val status: String
         get() = "$coordinateX $coordinateY $orientation"

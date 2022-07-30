@@ -1,12 +1,10 @@
 package com.igorwojda.robotcontrol
 
-import android.graphics.Point
 import com.igorwojda.robotcontrol.data.CommandSequence
 import com.igorwojda.robotcontrol.data.StartData
 import com.igorwojda.robotcontrol.enum.Orientation
-import com.igorwojda.robotcontrol.command.CommandType
 import com.igorwojda.robotcontrol.command.Command
-import kotlin.reflect.KClass
+import com.igorwojda.robotcontrol.data.Coordinate
 
 class InputParser(str: String) {
     private val inputLines by lazy {
@@ -20,7 +18,7 @@ class InputParser(str: String) {
             .map { it.toInt() }
 
         require(x <= 50 && y <= 50) { "Maximum allowed board size is 50x50, current size ${x}x$y" }
-        Point(x, y)
+        Coordinate(x, y)
     }
 
     val commandSequences by lazy {
@@ -46,7 +44,7 @@ class InputParser(str: String) {
 
     private fun getStartData(str: String): StartData {
         val (x, y, orientation) = str.split(" ", limit = 3)
-        val coordinate = Point(x.toInt(), y.toInt())
+        val coordinate = Coordinate(x.toInt(), y.toInt())
         return StartData(coordinate, Orientation.valueOf(orientation))
     }
 }
