@@ -1,72 +1,67 @@
 package com.igorwojda.robotcontrol.command
 
+import com.google.common.truth.Truth.assertThat
+import com.igorwojda.robotcontrol.data.Coordinate
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.enum.Orientation
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 class MoveForwardCommandTest {
-    private var robot: Robot = mockk(relaxUnitFun = true)
+    private var cut = MoveForwardCommand()
 
-    private var cut = MoveForwardCommand().apply {
-        receiver = robot
-    }
-
-    @Test
-    fun `given coordinateY 2 and orientation N when execute coordinateY 3`() {
+    @ParameterizedTest(name = "given {1}, orientation {0} when execute then position {2}, orientation {0}")
+    @MethodSource("provideValues")
+    fun `execute`(
+        orientation: Orientation,
+        startCoordinate: Coordinate,
+        endCoordinate: Coordinate,
+    ) {
         // given
-        every { robot.orientation } returns Orientation.N
-        every { robot.coordinateY } returns START_POSITION
+        val robot = Robot(
+            orientation = orientation,
+            coordinateX = startCoordinate.x,
+            coordinateY = startCoordinate.y,
+        )
+        cut.receiver = robot
 
         // when
         cut.execute()
 
         // then
-        verify { robot.coordinateY = 3 }
-    }
-
-    @Test
-    fun `given coordinateY 2 and orientation S when execute coordinateY 1`() {
-        // given
-        every { robot.orientation } returns Orientation.S
-        every { robot.coordinateY } returns START_POSITION
-
-        // when
-        cut.execute()
-
-        // then
-        verify { robot.coordinateY = START_POSITION - 1 }
-    }
-
-    @Test
-    fun `given coordinateX 2 and orientation E when execute coordinateX 1`() {
-        // given
-        every { robot.orientation } returns Orientation.E
-        every { robot.coordinateX } returns START_POSITION
-
-        // when
-        cut.execute()
-
-        // then
-        verify { robot.coordinateX = START_POSITION + 1 }
-    }
-
-    @Test
-    fun `given coordinateX 2 and orientation W when execute coordinateX 1`() {
-        // given
-        every { robot.orientation } returns Orientation.W
-        every { robot.coordinateX } returns START_POSITION
-
-        // when
-        cut.execute()
-
-        // then
-        verify { robot.coordinateX = START_POSITION - 1 }
+        assertThat(robot.coordinateX).isEqualTo(endCoordinate.x)
+        assertThat(robot.coordinateY).isEqualTo(endCoordinate.y)
     }
 
     companion object {
-        private const val START_POSITION = 2
+        private const val START_COORDINATE_X = 2
+        private const val START_COORDINATE_Y = 4
+
+        @Suppress("unused")
+        @JvmStatic
+        fun provideValues(): List<Arguments> = listOf(
+            arguments(
+                Orientation.N,
+                Coordinate(START_COORDINATE_X, START_COORDINATE_Y),
+                Coordinate(START_COORDINATE_X, START_COORDINATE_Y + 1)
+            ),
+            arguments(
+                Orientation.S,
+                Coordinate(START_COORDINATE_X, START_COORDINATE_Y),
+                Coordinate(START_COORDINATE_X, START_COORDINATE_Y - 1)
+            ),
+            arguments(
+                Orientation.E,
+                Coordinate(START_COORDINATE_X, START_COORDINATE_Y),
+                Coordinate(START_COORDINATE_X + 1, START_COORDINATE_Y)
+            ),
+            arguments(
+                Orientation.W,
+                Coordinate(START_COORDINATE_X, START_COORDINATE_Y),
+                Coordinate(START_COORDINATE_X - 1, START_COORDINATE_Y)
+            ),
+        )
     }
 }

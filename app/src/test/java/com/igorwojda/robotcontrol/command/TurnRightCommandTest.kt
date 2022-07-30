@@ -5,7 +5,9 @@ import com.igorwojda.robotcontrol.enum.Orientation
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 class TurnRightCommandTest {
     private var robot: Robot = mockk(relaxUnitFun = true)
@@ -14,51 +16,42 @@ class TurnRightCommandTest {
         receiver = robot
     }
 
-    @Test
-    fun `given orientation N when execute orientation E`() {
+    @ParameterizedTest(name = "given orientation {0} when execute then orientation {1}")
+    @MethodSource("provideValues")
+    fun `given orientation N when execute orientation W`(
+        startOrientation: Orientation,
+        endOrientation: Orientation,
+    ) {
         // given
-        every { robot.orientation } returns Orientation.N
+        every { robot.orientation } returns startOrientation
 
         // when
         cut.execute()
 
         // then
-        verify { robot.orientation = Orientation.E }
+        verify { robot.orientation = endOrientation }
     }
 
-    @Test
-    fun `given orientation S when execute orientation W`() {
-        // given
-        every { robot.orientation } returns Orientation.S
-
-        // when
-        cut.execute()
-
-        // then
-        verify { robot.orientation = Orientation.W }
-    }
-
-    @Test
-    fun `given orientation E when execute orientation S`() {
-        // given
-        every { robot.orientation } returns Orientation.E
-
-        // when
-        cut.execute()
-
-        // then
-        verify { robot.orientation = Orientation.S }
-    }
-
-    @Test
-    fun `given orientation W when execute orientation N`() {
-        // given
-        every { robot.orientation } returns Orientation.W
-
-        // when
-        cut.execute()
-
-        // then
-        verify { robot.orientation = Orientation.N }
+    companion object {
+        @Suppress("unused")
+        @JvmStatic
+        fun provideValues(): List<Arguments> = listOf(
+            Arguments.arguments(
+                Orientation.N,
+                Orientation.E,
+            ),
+            Arguments.arguments(
+                Orientation.S,
+                Orientation.W,
+            ),
+            Arguments.arguments(
+                Orientation.E,
+                Orientation.S,
+            ),
+            Arguments.arguments(
+                Orientation.W,
+                Orientation.N,
+            ),
+        )
     }
 }
