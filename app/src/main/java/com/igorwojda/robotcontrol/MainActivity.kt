@@ -11,7 +11,7 @@ import com.igorwojda.robotcontrol.extension.readAssetAsString
 
 class MainActivity : AppCompatActivity() {
     private val defaultDirections by lazy { application.readAssetAsString("directions.txt") }
-    private val earthInstructions: String
+    private val earthCommands: String
         get() = if (binding.commandsTextView.text.isNullOrBlank()) {
             defaultDirections
         } else {
@@ -31,16 +31,16 @@ class MainActivity : AppCompatActivity() {
         binding.log.movementMethod = ScrollingMovementMethod()
         binding.commandsTextView.text = defaultDirections
 
-        binding.runEarthInstructionsButton.setOnClickListener {
-            executeEarthInstructions()
+        binding.runEarthCommandsButton.setOnClickListener {
+            executeEarthCommands()
         }
 
-        executeEarthInstructions()
+        executeEarthCommands()
     }
 
-    private fun executeEarthInstructions() {
+    private fun executeEarthCommands() {
         clearLog()
-        val inputParser = InputParser(earthInstructions)
+        val inputParser = InputParser(earthCommands)
 
         addLogLine("Board size ${inputParser.boardSize.x}x${inputParser.boardSize.y}")
         addLogLine()

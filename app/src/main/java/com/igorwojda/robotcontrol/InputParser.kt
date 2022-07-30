@@ -31,26 +31,26 @@ class InputParser(str: String) {
             .map {
                 val (startDataLine, commandsLine) = it
                 val startData = getStartData(startDataLine)
-                val commands = getInstructions(commandsLine)
+                val commands = getCommands(commandsLine)
                 CommandSequence(startData.coordinate, startData.orientation, commands)
             }
     }
 
-    private fun getInstructions(str: String) = str.map { code ->
+    private fun getCommands(str: String) = str.map { code ->
         require(str.length <= 100) {
             "Maximum number of commands allowed is 100, current number of commands: ${str.length}"
         }
 
-        getInstruction(code)
+        getCommand(code)
     }
 
-    private fun getInstruction(code: Char): Command {
-        val commandType = getInstructionClass(code)
+    private fun getCommand(code: Char): Command {
+        val commandType = getCommandClass(code)
         val commandConstructor = getParameterlessConstructor(commandType)
         return commandConstructor.call()
     }
 
-    private fun getInstructionClass(code: Char) = requireNotNull(
+    private fun getCommandClass(code: Char) = requireNotNull(
         CommandType.values().firstOrNull { it.code == code }
     ) {
         "Unknown command code: $code"

@@ -27,7 +27,7 @@
                 android:textIsSelectable="true" />
 
         <Button
-                android:id="@+id/runEarthInstructionsButton"
+                android:id="@+id/run_earth_commands_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/run_earth_commands" />
