@@ -66,7 +66,11 @@ class MainActivity : AppCompatActivity() {
         val prohibitedMoves = mutableSetOf<ProhibitedMove>()
 
         inputParser.commandSequences.forEach { commandSequence ->
-            val robot = Robot(commandSequence.startCoordinate.x, commandSequence.startCoordinate.y, commandSequence.startOrientation)
+            val robot = Robot(
+                commandSequence.startCoordinate.x,
+                commandSequence.startCoordinate.y,
+                commandSequence.startOrientation
+            )
             addLogLine(commandSequence.toString())
 
             for (commandIndex in 0 until commandSequence.commands.size) {
@@ -75,8 +79,7 @@ class MainActivity : AppCompatActivity() {
                 //one robot died here, so we want to save another
                 if (command is MoveForwardCommand
                     && prohibitedMoves.any {
-                        it.coordinateX == robot.coordinateX
-                            && it.coordinateY == robot.coordinateY
+                        it.coordinate == robot.coordinate
                             && it.orientation == robot.orientation
                     }
                 ) {
@@ -96,8 +99,7 @@ class MainActivity : AppCompatActivity() {
                     addLogLine("Robot was lost")
 
                     val prohibitedMove = ProhibitedMove(
-                        prevRobot.coordinateX,
-                        prevRobot.coordinateY,
+                        prevRobot.coordinate,
                         prevRobot.orientation
                     )
 
