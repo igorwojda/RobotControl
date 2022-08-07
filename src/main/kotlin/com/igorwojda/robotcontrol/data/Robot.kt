@@ -7,7 +7,7 @@ data class Robot(
     var coordinateY: Int,
     var orientation: Orientation,
 ) {
-    val coordinate = Coordinate(coordinateX, coordinateY)
+    val coordinate get() = Coordinate(coordinateX, coordinateY)
 
     val status: String
         get() = "$coordinateX $coordinateY $orientation"

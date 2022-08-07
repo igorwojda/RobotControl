@@ -28,20 +28,10 @@ class App {
         executeEarthCommands()
     }
 
-    private fun displayListOfSupportedCommands() {
-        println("Supported commands:")
-        println()
-
-        Command.values.forEach {
-            println("${it.first} - ${it.second::class.simpleName}")
-        }
-    }
-
-
     private fun executeEarthCommands() {
         val inputParser = InputParser(earthCommands)
 
-        println("Board size ${inputParser.boardMaxX}x${inputParser.boardMaxY}")
+        println("Board size ${inputParser.boardWidth}x${inputParser.boardHeight}")
         println()
 
         val prohibitedMoves = mutableSetOf<ProhibitedMove>()
@@ -73,8 +63,8 @@ class App {
 
                 println("${command.javaClass.simpleName}: ${prevRobot.status} -> ${robot.status}")
 
-                if (robot.coordinate.x > inputParser.boardMaxX
-                    || robot.coordinate.y > inputParser.boardMaxY
+                if (robot.coordinate.x > inputParser.boardWidth
+                    || robot.coordinate.y > inputParser.boardHeight
                 ) {
                     //mark this move as dangerous, so other robots will survive
                     println("Robot was lost")
@@ -91,5 +81,17 @@ class App {
 
             println()
         }
+    }
+
+    private fun displayListOfSupportedCommands() {
+        println("Supported commands:")
+        println()
+
+        Command.values.forEach {
+            println("${it.first} - ${it.second::class.simpleName}")
+        }
+
+        println()
+        println()
     }
 }

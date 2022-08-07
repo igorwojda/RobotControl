@@ -11,18 +11,24 @@ class InputParser(str: String) {
         str.split("\n")
     }
 
-    private val boardSize by lazy {
+    val boardWidth: Int
+    val boardHeight: Int
+
+    init {
         val boardSizeLine = inputLines[0]
-        val (x, y) = boardSizeLine
+        val (width, height) = boardSizeLine
             .split(" ")
             .map { it.toInt() }
 
-        require(x <= 50 && y <= 50) { "Maximum allowed board size is 50x50, current size ${x}x$y" }
-        listOf(x, y)
+        require(width <= 50 && height <= 50) { "Maximum allowed board size is 50x50, current size ${width}x$height" }
+
+        boardWidth = width
+        boardHeight = height
     }
 
-    val boardMaxX = boardSize[0] - 1
-    val boardMaxY = boardSize[1] - 1
+    private val boardSize by lazy {
+
+    }
 
     val commandSequences by lazy {
         inputLines
