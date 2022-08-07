@@ -10,9 +10,9 @@ A robot position consists of a grid coordinate (a pair of integers: x-coordinate
 y-coordinate) and an orientation (N, S, E, W for north, south, east, and west).
 A robot instructions:
 
-- Left : the robot turns left 90 degrees and remains on the current grid point.
-- Right : the robot turns right 90 degrees and remains on the current grid point.
-- Forward : the robot moves forward one grid point in the direction of the current
+- Left (`L`) - the robot turns left 90 degrees and remains on the current grid point.
+- Right (`R`) - the robot turns right 90 degrees and remains on the current grid point.
+- Forward (`F`) - the robot moves forward one grid point in the direction of the current
   orientation and maintains the same orientation.
 
 The direction North corresponds to the direction from grid point (x, y) to grid point (x, y+1).
@@ -85,6 +85,16 @@ LLFFFLFLFL
 Output:
 2 3 S
 ```
+
+## Possible extensions of this task
+
+- Draw debug map in the console. Represent Robot as unicode arrow character (`←` `↑` `→` `↓`)
+- Add support for additional commands
+  - Backward (`F`) - the robot moves backward one grid point in the direction opposite of the current
+    orientation and maintains the same orientation.
+  - Turn (`T`) - the robot turns around (turns 180 degrees) and remains on the current grid point.
+  - Slide right (`>`) - the robot moves one grid point to the right of the current orientation.
+  - Slide left (`<`) - the robot moves one grid point to the left of the current orientation.
 
 ## How to open this project
 
