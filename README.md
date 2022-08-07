@@ -1,9 +1,5 @@
 # Martian Robots
 
-## How to open
-
-Use [Android Studio](https://developer.android.com/studio) to open this project.
-
 ## The Problem
 
 The surface of Mars can be modelled by a rectangular grid around which robots are able to
@@ -90,8 +86,8 @@ Output:
 2 3 S
 ```
 
-## Known issues
+## How to open this project
 
-The [sealedSubclasses](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/sealed-subclasses.html) 
-property has bug with incremental compile (see [KT-46906](https://youtrack.jetbrains.com/issue/KT-46906)). 
-If app crashes after run then clean project (Build -> Clean Project).
+1. Run [IntelliJ Idea](https://www.jetbrains.com/idea/)
+2. Open File -> New -> Project From Version Control...
+3. Paste Git repository URL and click Open
