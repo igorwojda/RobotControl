@@ -1,6 +1,7 @@
 package com.igorwojda.robotcontrol.command
 
 import com.google.common.truth.Truth.assertThat
+import com.igorwojda.robotcontrol.data.Coordinate
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.enum.Orientation
 import org.junit.jupiter.params.ParameterizedTest
@@ -21,10 +22,9 @@ class TurnLeftCommandTest {
             orientation = startOrientation,
             coordinate = Coordinate(0, 0)
         )
-        cut.receiver = robot
 
         // when
-        cut.execute()
+        cut.execute(robot)
 
         // then
         assertThat(robot.orientation).isEqualTo(endOrientation)

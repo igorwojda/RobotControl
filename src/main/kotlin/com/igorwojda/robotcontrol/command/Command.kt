@@ -7,9 +7,7 @@ import kotlin.reflect.full.primaryConstructor
 sealed class Command(
     val code: Char,
 ) {
-    var receiver: Robot? = null
-
-    abstract fun execute()
+    abstract fun execute(robot: Robot)
 
     companion object {
 

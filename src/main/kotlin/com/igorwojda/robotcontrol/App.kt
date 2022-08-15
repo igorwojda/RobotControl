@@ -58,8 +58,7 @@ class App {
                 }
 
                 val prevRobot = robot.copy()
-                command.receiver = robot
-                command.execute()
+                command.execute(robot)
 
                 println("${command.javaClass.simpleName}: ${prevRobot.status} -> ${robot.status}")
 

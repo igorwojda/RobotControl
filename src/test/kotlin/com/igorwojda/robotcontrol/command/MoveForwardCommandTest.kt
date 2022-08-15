@@ -1,6 +1,7 @@
 package com.igorwojda.robotcontrol.command
 
 import com.google.common.truth.Truth.assertThat
+import com.igorwojda.robotcontrol.data.Coordinate
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.enum.Orientation
 import org.junit.jupiter.params.ParameterizedTest
@@ -23,10 +24,9 @@ class MoveForwardCommandTest {
             orientation = orientation,
             coordinate = startCoordinate
         )
-        cut.receiver = robot
 
         // when
-        cut.execute()
+        cut.execute(robot)
 
         // then
         assertThat(robot.coordinate.x).isEqualTo(endCoordinate.x)
