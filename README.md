@@ -50,7 +50,7 @@ should be printed after the position and orientation.
 
 ## Sample data
 
-### Scenario 1
+### Run 1
 ```
 Input:
 5 3
@@ -61,7 +61,7 @@ Output:
 1 1 E
 ```
 
-### Scenario 2
+### Run 2
 
 ```
 Input:
@@ -73,7 +73,10 @@ Output:
 3 3 N LOST
 ```
 
-### Scenario 3
+The position where robot was lost in saved, so in the following run this instruction and robot will be saved.
+
+### Run 3
+
 ```
 Input:
 5 3
