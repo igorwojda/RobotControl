@@ -9,10 +9,10 @@ import com.igorwojda.robotcontrol.enum.Orientation.W
 class MoveForwardCommand : Command('F') {
     override fun execute(robot: Robot) {
         when (robot.orientation) {
-            N -> robot.coordinateY++
-            S -> robot.coordinateY--
-            E -> robot.coordinateX++
-            W -> robot.coordinateX--
+            N -> robot.y++
+            S -> robot.y--
+            E -> robot.x++
+            W -> robot.x--
         }
     }
 }

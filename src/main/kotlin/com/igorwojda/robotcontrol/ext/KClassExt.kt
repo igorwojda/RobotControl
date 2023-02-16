@@ -1,4 +1,4 @@
-package com.igorwojda.robotcontrol.extension
+package com.igorwojda.robotcontrol.ext
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction

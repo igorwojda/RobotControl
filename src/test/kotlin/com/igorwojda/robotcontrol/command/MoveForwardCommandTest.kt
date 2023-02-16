@@ -1,36 +1,37 @@
 package com.igorwojda.robotcontrol.command
 
-import com.google.common.truth.Truth.assertThat
-import com.igorwojda.robotcontrol.data.Coordinate
 import com.igorwojda.robotcontrol.data.Robot
 import com.igorwojda.robotcontrol.enum.Orientation
+import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 class MoveForwardCommandTest {
     private var cut = MoveForwardCommand()
 
-    @ParameterizedTest(name = "given {1}, orientation {0} when execute then position {2}")
+    @ParameterizedTest(name = "given {1}x{2}, orientation {0} when execute then position {2}x{3}")
     @MethodSource("provideValues")
     fun `execute`(
         orientation: Orientation,
-        startCoordinate: Coordinate,
-        endCoordinate: Coordinate,
+        startPositionX: Int,
+        startPositionY: Int,
+        endPositionX: Int,
+        endPositionY: Int,
     ) {
         // given
         val robot = Robot(
             orientation = orientation,
-            coordinate = startCoordinate
+            x = startPositionX,
+            y = startPositionY,
         )
 
         // when
         cut.execute(robot)
 
         // then
-        assertThat(robot.coordinate.x).isEqualTo(endCoordinate.x)
-        assertThat(robot.coordinate.y).isEqualTo(endCoordinate.y)
+        robot.x shouldBeEqualTo endPositionX
+        robot.y shouldBeEqualTo endPositionY
     }
 
     companion object {
@@ -39,26 +40,34 @@ class MoveForwardCommandTest {
 
         @Suppress("unused")
         @JvmStatic
-        fun provideValues(): List<Arguments> = listOf(
+        fun provideValues() = listOf(
             arguments(
                 Orientation.N,
-                Coordinate(START_COORDINATE_X, START_COORDINATE_Y),
-                Coordinate(START_COORDINATE_X, START_COORDINATE_Y + 1)
+                START_COORDINATE_X,
+                START_COORDINATE_Y,
+                START_COORDINATE_X,
+                START_COORDINATE_Y + 1,
             ),
             arguments(
                 Orientation.S,
-                Coordinate(START_COORDINATE_X, START_COORDINATE_Y),
-                Coordinate(START_COORDINATE_X, START_COORDINATE_Y - 1)
+                START_COORDINATE_X,
+                START_COORDINATE_Y,
+                START_COORDINATE_X,
+                START_COORDINATE_Y - 1,
             ),
             arguments(
                 Orientation.E,
-                Coordinate(START_COORDINATE_X, START_COORDINATE_Y),
-                Coordinate(START_COORDINATE_X + 1, START_COORDINATE_Y)
+                START_COORDINATE_X,
+                START_COORDINATE_Y,
+                START_COORDINATE_X + 1,
+                START_COORDINATE_Y,
             ),
             arguments(
                 Orientation.W,
-                Coordinate(START_COORDINATE_X, START_COORDINATE_Y),
-                Coordinate(START_COORDINATE_X - 1, START_COORDINATE_Y)
+                START_COORDINATE_X,
+                START_COORDINATE_Y,
+                START_COORDINATE_X - 1,
+                START_COORDINATE_Y,
             ),
         )
     }

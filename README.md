@@ -12,10 +12,10 @@ A robot instructions:
 
 - Left (`L`) - the robot turns left 90 degrees and remains on the current grid point.
 - Right (`R`) - the robot turns right 90 degrees and remains on the current grid point.
-- Forward (`F`) - the robot moves forward one grid point in the direction of the current
+- Forward (`F`) - the robot moves forward one grid point in the Orientation of the current
   orientation and maintains the same orientation.
 
-The direction North corresponds to the direction from grid point (x, y) to grid point (x, y+1).
+The Orientation North corresponds to the Orientation from grid point (x, y) to grid point (x, y+1).
 
 There is also a possibility that additional command types may be required in the future and
 provision should be made for this.
@@ -41,8 +41,6 @@ Each robot is processed sequentially, i.e., finishes executing the robot instruc
 next robot begins execution.
 
 The maximum value for any coordinate is 50.
-
-All instruction strings will be less than 100 characters in length.
 
 ## The Output
 
@@ -90,7 +88,7 @@ Output:
 
 - Draw debug map in the console. Represent Robot as unicode arrow character (`←` `↑` `→` `↓`)
 - Add support for additional commands
-  - Backward (`F`) - the robot moves backward one grid point in the direction opposite of the current
+  - Backward (`F`) - the robot moves backward one grid point in the Orientation opposite of the current
     orientation and maintains the same orientation.
   - Turn (`T`) - the robot turns around (turns 180 degrees) and remains on the current grid point.
   - Slide right (`>`) - the robot moves one grid point to the right of the current orientation.

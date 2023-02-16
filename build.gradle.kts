@@ -1,7 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.8.10"
+    `jvm-test-suite`
 }
 
 group = "org.example"
@@ -13,18 +12,49 @@ repositories {
 
 dependencies {
     implementation(kotlin("reflect"))
+    implementation("io.insert-koin:koin-core:3.3.3")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.0")
-    testImplementation("io.mockk:mockk:1.12.5")
-    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation(kotlin("test-junit5"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    testImplementation("io.mockk:mockk:1.13.2")
+    testImplementation("org.amshove.kluent:kluent:1.72")
+
+    testImplementation("io.insert-koin:koin-test-junit5:3.3.3") {
+        exclude("org.jetbrains.kotlin", "kotlin-test-junit")
+    }
 }
 
-tasks.test {
-    useJUnitPlatform()
+// Introducing Test Suites https://blog.gradle.org/introducing-test-suites
+// https://docs.gradle.org/current/userguide/java_testing.html#sec:configuring_java_integration_tests
+// Add integrationTest source set
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+        }
+
+        register("integrationTest", JvmTestSuite::class) {
+            dependencies {
+                implementation(project())
+                implementation("io.insert-koin:koin-test-junit5:3.3.3") {
+                    exclude("org.jetbrains.kotlin", "kotlin-test-junit")
+                }
+                implementation("org.amshove.kluent:kluent:1.72")
+            }
+
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+        }
+    }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+tasks.named("check") {
+    dependsOn(testing.suites.named("integrationTest"))
 }

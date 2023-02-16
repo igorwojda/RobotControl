@@ -1,13 +1,17 @@
 package com.igorwojda.robotcontrol.command
 
 import com.igorwojda.robotcontrol.data.Robot
-import com.igorwojda.robotcontrol.extension.parameterlessConstructor
+import com.igorwojda.robotcontrol.ext.parameterlessConstructor
 import kotlin.reflect.full.primaryConstructor
 
 sealed class Command(
-    val code: Char,
+    val code: Char
 ) {
     abstract fun execute(robot: Robot)
+
+    override fun toString(): String {
+        return "Command $code"
+    }
 
     companion object {
 
@@ -35,7 +39,5 @@ sealed class Command(
 
             return constructor.call()
         }
-
-        val values = map.toList()
     }
 }
